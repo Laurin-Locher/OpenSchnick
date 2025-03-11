@@ -49,17 +49,25 @@ export default class osDAO {
                 return { status: 'notFound'}
             } 
             
-            update(reference, {
+            await update(reference, {
                 'guestUsername': username
             })
 
-            const lobby = snapshot.val()
+            const lobbySnapshot = await get(reference)
+            const lobby = lobbySnapshot.val()
+
 
             return { status: 'succes', 'lobby': lobby }
         } catch (e) {
             console.error('Could not join lobby: ' + e)
             return { status: 'failed', error: e }
         }
+    }
+
+    static async getLobby(id) {
+        const reference = ref(this.db, 'lobbys/' + id)
+        const snapshot = await get(reference)
+        return snapshot.val()
     }
 
     // static async addLobbyListener(id) {

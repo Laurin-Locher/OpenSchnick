@@ -132,6 +132,7 @@ p {
     justify-content: center;
     text-align: center;
     height: 100vh;
+    width: 50vh;
     position: relative;
 }
 

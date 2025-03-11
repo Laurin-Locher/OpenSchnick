@@ -1,4 +1,4 @@
-const API_LINK = 'https://openschnick.onrender.com/api/v1/os-game/'
+const API_LINK = 'http://localhost:8000/api/v1/os-game/'
 
 const left_container = document.querySelector('.left .container')
 const left_title = document.querySelector('.left .title')
@@ -112,6 +112,9 @@ function createLobby(username) {
         })
 }
 
+function connectHost(id) {
+    fetch(API_LINK + 'connectHost/' + id)
+}
 
 function lobbyUI(code, username) {
     changeElements([frontFrame, left_container, right_container], () => {
@@ -126,6 +129,19 @@ function lobbyUI(code, username) {
             <h1 class="title" style="padding:0;margin:0;">${code}<h1>
         `
     })
+
+    connectHost(code)
+
+    // wait for user to join
+    const eventSource = new EventSource(API_LINK + 'connectHost/' + code)
+    eventSource.onmessage = function(event) {
+        const lobby = JSON.parse(event.data);
+        console.log('Received data:', lobby);
+
+        right_container.innerHTML = /* html */ `
+            <h1 class="title">${lobby.guestUsername}<h1>
+        `
+    }
 }
 
 function addVS() {

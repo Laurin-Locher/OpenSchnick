@@ -12,6 +12,7 @@ DELETE: delete a reccource
 
 router.route('/host').post(contoller.hostLobby)
 router.route('/join/:id').post(contoller.joinLobby)
+router.route('/connectHost/:id').get(contoller.connectHost)
 
 
 export default router
