@@ -29,18 +29,19 @@ export default class OsController {
         const id = req.params.id
         const username = req.body.username
 
-        const join = await osDAO.joinLobby(id, username)
+        const join = await osDAO.joinLobby(parseInt(id), username)
 
         switch(join.status) {
             case 'succes':
-                res.json({ status: 'succes' })
+                res.json(join)
                 return
             case 'notFound':
                 res.json({ status: 'id not found' })
                 return
             case 'failed':
-                return
                 res.status(500).json({ status: 'failed' })
+                return
+
         }
 
     }

@@ -33,8 +33,6 @@ function startHosting() {
 }
 
 function askForUsername() {
-
-    console.log("host online")
     changeElements([frontFrame, left_container, right_container], () => {
         right_container.innerHTML = ``
         left_container.innerHTML = ``
@@ -117,19 +115,113 @@ function createLobby(username) {
 
 function lobbyUI(code, username) {
     changeElements([frontFrame, left_container, right_container], () => {
-        frontFrame.innerHTML = /* html */ `
-        <img src='VS.png' width=200px>
-        `
+        addVS()
 
         left_container.innerHTML = /* html */ `
             <h1 class="title">${username}<h1>
         `
-    
+
         right_container.innerHTML = /* html */ `
             <p class='whiteText' style="padding:0;margin:0;">Join with code:<p>
             <h1 class="title" style="padding:0;margin:0;">${code}<h1>
         `
-    })    
+    })
+}
+
+function addVS() {
+    frontFrame.innerHTML = /* html */ `
+        <img src='VS.png' width=200px>
+        `
+}
+
+function startJoining() {
+    console.log('start join')
+    changeElements([frontFrame, left_container, right_container], () => {
+        right_container.innerHTML = ``
+        left_container.innerHTML = ``
+
+        frontFrame.innerHTML += /* html */ `              
+            <div class="inputFrame">
+                <h4 id='enterStuffLabel'>Enter code and username</h4>
+                <input class="inputSource" id="id" type="text" placeholder="Enter code">
+                <br>
+                <input class="inputSource" id="username" type="text" placeholder="username">
+                <br>
+                <button class="inputSource" onclick="join()" style="margin-top:10px;">Join</button>
+                <div><div>
+            </div>
+        `
+    })
+}
+
+function join() {
+    const username = document.getElementById('username').value
+    const id = document.getElementById('id').value
+    const label = document.getElementById('enterStuffLabel')
+
+    if (!username) {
+        label.innerText = `Username mustn't be empty.`
+        label.style = `color:red;`
+
+        return;
+    } else if (!id) {
+        label.innerText = `Code mustn't be empty`
+        label.style = `color:red;`
+
+        return;
+    } else {
+        label.innerText = `Loading...`
+        label.style = `color:black;`
+
+        fetch(API_LINK + 'join/' + id, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+                username: username
+            })
+        }).then((res) => res.json())
+            .then((res) => {
+                console.log(res)
+
+                switch (res.status) {
+                    case 'id not found':
+                        label.innerText = `Code not found`
+                        label.style = `color:red;`
+                        return
+
+                    case 'succes':
+                        label.innerText = 'Joined'
+                        label.style = `color:black;`
+                        guestLobbyUI(res.lobby)
+                        return
+
+                    default:
+                        label.innerText = `Unknown error`
+                        label.style = `color:red;`
+                        return
+
+                }
+            })
+    }
+}
+
+function guestLobbyUI(lobby) {
+console.log(lobby)
+
+    addVS()
+
+    left_container.innerHTML = /* html */ `
+        <h1 class="title">${lobby.username}<h1>
+    `
+
+    right_container.innerHTML = /* html */ `
+    <h1 class="title">${lobby.guestUsername}<h1>
+
+    `
 }
 
 function changeElements(elements, change) {
@@ -155,8 +247,4 @@ function changeElements(elements, change) {
     }, 500)
 
 
-}
-
-function startJoining() {
-    
 }

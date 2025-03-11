@@ -43,23 +43,19 @@ export default class osDAO {
             const reference = ref(this.db, 'lobbys/' + id)
             let lobby_exits
             
-            await get(reference, (snapshot) => {
-                if (snapshot.exists()) {
-                    lobby_exits = true
-                } else {
-                    lobby_exits = false
-                }
-            })
+            const snapshot = await get(reference)
 
-            if (!lobby_exits) {
+            if (!snapshot.exists()) {
                 return { status: 'notFound'}
-            }
+            } 
             
             update(reference, {
-                'guest_username': username
+                'guestUsername': username
             })
 
-            return { status: 'succes' }
+            const lobby = snapshot.val()
+
+            return { status: 'succes', 'lobby': lobby }
         } catch (e) {
             console.error('Could not join lobby: ' + e)
             return { status: 'failed', error: e }
