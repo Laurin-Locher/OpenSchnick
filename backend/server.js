@@ -1,4 +1,4 @@
-import router from "./api/os-game.route.js"
+import router from "./api/os.route.js"
 import express from "express"
 import cors from "cors"
 
