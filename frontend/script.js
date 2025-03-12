@@ -50,11 +50,18 @@ function askForUsername() {
 
 function host() {
     const value = document.getElementById('username').value
+    const label = document.getElementById('enterUsernameLabel')
 
-    if (value) {
+
+    if (value.length > 7) {
+        changeElements([label], () => {
+            label.innerText = `Username to long! Max 7 letters.`
+            label.style = 'color:red;'
+        })
+    } else if (value) {
         createLobby(value)
-    } else {
-        const label = document.getElementById('enterUsernameLabel')
+    }
+    else {
 
         changeElements([label], () => {
             label.innerText = `Username mustn't be empty!`
