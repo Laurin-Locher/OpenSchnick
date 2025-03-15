@@ -1,5 +1,8 @@
 * {
     transition: opacity 0.5s;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 body {
@@ -163,7 +166,10 @@ p {
 }
 
 .container {
-    margin: 0 6.5vw; /* zuvor 0 100px */
+    padding: 6vw;   
+    max-width: 80%;
+    overflow: hidden;
+    background-color: red; 
 }
 
 .magicWord {
