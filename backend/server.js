@@ -5,7 +5,11 @@ import cors from "cors"
 const app = express()
 
 // Cross Origen Reccourse Sharing
-app.use(cors())
+app.use(cors({
+    origin: "https://openschnickgame.onrender.com", 
+    methods: ["GET", "POST"], 
+    credentials: true
+  }));
 
 // automaticly transforms incoming json into a java-script object
 app.use(express.json())

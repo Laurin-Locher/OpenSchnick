@@ -1,4 +1,4 @@
-const API_LINK = 'https://openschnick-1.onrender.com/api/v1/os-game/'
+const API_LINK = 'http://localhost:8000/api/v1/os-game/'
 
 const left_container = document.querySelector('.left .container')
 const left_title = document.querySelector('.left .title')
