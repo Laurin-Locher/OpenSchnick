@@ -259,16 +259,6 @@ function join() {
 
 function guestLobbyUI(lobby, id) {
 
-    addVS()
-
-    left_container.innerHTML = /* html */ `
-        <h1 class="title">${lobby.username}<h1>
-    `
-
-    right_container.innerHTML = /* html */ `
-    <h1 class="title">${lobby.guestUsername}<h1>
-     `
-
     eventSource = new EventSource(API_LINK + 'connectGuest/' + id)
 
     eventSource.onmessage = (event) => {
@@ -286,6 +276,18 @@ function guestLobbyUI(lobby, id) {
         }
     }
 
+    addVS()
+
+    left_container.innerHTML = /* html */ `
+        <h1 class="title">${lobby.username}<h1>
+    `
+
+    right_container.innerHTML = /* html */ `
+    <h1 class="title">${lobby.guestUsername}<h1>
+     `
+
+    
+
     eventSource.onerror = (err) => {
         console.error('EventSource failed:', err);
     }
@@ -293,7 +295,6 @@ function guestLobbyUI(lobby, id) {
 }
 
 function guestGameUI(id) {
-    console.log('ggUI' + id)
     left_container.innerHTML = /* html */ `
     <h1 class='title'>Typing...</h1>
     `
