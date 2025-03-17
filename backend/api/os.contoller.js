@@ -121,7 +121,7 @@ export default class OsController {
                 res.json(result)
 
                 if (result.both === true) {
-                    OsController.sendResults(id) // Fix: Pass the id to sendResults
+                    OsController.sendResults(id)
                 }
                 return
 

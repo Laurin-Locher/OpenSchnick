@@ -10,6 +10,21 @@ const frontFrame = document.getElementById('frontFrame')
 
 let eventSource
 
+setTimeout(() => {
+    showStart()
+}, 1000)
+
+function showStart() {
+    changeElements([left_container, right_container], () => {
+        left_container.innerHTML = /* html */ 
+        `<p class="title" onclick="startHosting()">Host</p>`
+    
+        right_container.innerHTML = /* html */ `
+        <p class="title" onclick="startJoining()">Join</p>
+        `
+    })
+}
+
 function startHosting() {
 
     askForUsername()
@@ -32,8 +47,7 @@ function startHosting() {
     //         <b>Still in development - currently not available</b>
     //         </p>
     //     </div>
-    //     `
-    // })
+    //     `// })
 }
 
 function askForUsername() {
@@ -405,7 +419,7 @@ function waitForResult() {
     </div>
     `
     const resultFrame = document.getElementById('resultFrame')
-    resultFrame.style = "display: none; opacity:0"
+    resultFrame.style = "display: none;"
     const result = document.getElementById("result")
     const vs = document.getElementById("vs")
 
