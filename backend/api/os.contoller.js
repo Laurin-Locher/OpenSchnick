@@ -56,14 +56,13 @@ export default class OsController {
 
     static async startGame(req, res) {
         const id = req.params.id
-        console.log('start game: ' + id)
 
         const startTime = Date.now() + 1000
 
         if (OsController.guests[id]) {
             OsController.guests[id].write(`data: ${JSON.stringify({ startTime: startTime })}\n\n`)
         } else {
-            console.log('Guest not found ' + id)
+            console.error('Guest not found ' + id)
         }
 
         res.json({ startTime: startTime })
@@ -71,7 +70,6 @@ export default class OsController {
     }
 
     static async joinLobby(req, res, next) {
-        console.log('join game')
         const id = req.params.id
         const username = req.body.username
 
@@ -112,7 +110,7 @@ export default class OsController {
 
         switch (result.status) {
             case 'already logged in':
-                console.log('already logged in')
+                console.error('already logged in')
                 res.json({
                     status: 'already logged in'
                 })
@@ -136,7 +134,7 @@ export default class OsController {
         if (OsController.hosts[id]) {
             OsController.hosts[id].write(`data: ${message}\n\n`)
         } else {
-            console.log('Host not found ' + id)
+            console.error('Host not found ' + id)
         }
     }
 
@@ -144,7 +142,7 @@ export default class OsController {
         if (OsController.guests[id]) {
             OsController.guests[id].write(`data: ${message}\n\n`)
         } else {
-            console.log('Guest not found ' + id)
+            console.error('Guest not found ' + id)
         }
     }
 

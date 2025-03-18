@@ -117,7 +117,7 @@ export default class osDAO {
         const exists = snapshot.exists()
 
         if (!exists) {
-            console.log(`Lobby ${id} does not exist`);
+            //console.error(`Lobby ${id} does not exist`);
             return false
         }
 
@@ -125,20 +125,20 @@ export default class osDAO {
         console.log(`Lobby data: ${JSON.stringify(lobby)}`)
 
         if (lobby[`${user}Word`] && lobby[`${user}Word`].length > 0) {
-            console.log(`${user} is logged in with word: ${lobby[`${user}Word`]}`);
+            //console.log(`${user} is logged in with word: ${lobby[`${user}Word`]}`);
             return true
         } else {
-            console.log(`${user} is not logged in`);
+            //console.log(`${user} is not logged in`);
             return false
         }
     }
 
     static async bothLoggedIn(id) {
-        console.log(`Checking bothLoggedIn for lobby ${id}`);
+        // console.log(`Checking bothLoggedIn for lobby ${id}`);
         const guest = await osDAO.loggedIn(id, 'guest')
         const host = await osDAO.loggedIn(id, 'host')
-        console.log('guest ' + guest)
-        console.log('host ' + host)
+        // console.log('guest ' + guest)
+        // console.log('host ' + host)
         if (host && guest) {
             return true
         } else { 
@@ -149,7 +149,6 @@ export default class osDAO {
     static async logInWord(id, word, user) {
         try {
             const isLoggedIn = await osDAO.loggedIn(id, user)
-            console.log('li' + isLoggedIn)
             if (isLoggedIn) {
                 console.log('already logged in')
                 return { status: 'already logged in' }
@@ -163,12 +162,11 @@ export default class osDAO {
 
             const both = await osDAO.bothLoggedIn(id)
             
-            console.log('success' + both)
 
             return { status: 'succes', both: both }
 
         } catch (e) {
-            console.log('failed ' + e)
+            console.error('failed ' + e)
             return { status: 'failed', error: e }
         }
     }
@@ -178,10 +176,10 @@ export default class osDAO {
 
         remove(reference)
             .then(() => {
-                console.log("Succesflully deleted " + id)
+                // console.log("Succesflully deleted " + id)
             })
             .catch(() => {
-                console.log("failed to delete " + id)
+                console.error("failed to delete " + id)
             })
 
     }
