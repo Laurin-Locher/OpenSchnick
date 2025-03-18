@@ -36,6 +36,7 @@ export default class OsController {
 
         req.on('close', () => {
             delete OsController.hosts[id]
+            osDAO.closeLobby(id)
         });
     }
 

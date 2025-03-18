@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import { get, getDatabase, onValue, ref, set, update } from "firebase/database"
+import { get, getDatabase, onValue, ref, set, update, remove } from "firebase/database"
 
 export default class osDAO {
     static db
@@ -171,5 +171,18 @@ export default class osDAO {
             console.log('failed ' + e)
             return { status: 'failed', error: e }
         }
+    }
+
+    static async closeLobby(id) {
+        const reference = ref(this.db, 'lobbys/' + id)
+
+        remove(reference)
+            .then(() => {
+                console.log("Succesflully deleted " + id)
+            })
+            .catch(() => {
+                console.log("failed to delete " + id)
+            })
+
     }
 }
